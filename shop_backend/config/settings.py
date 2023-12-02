@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',  # Приложение, которое предоставляет механизмы для работы с сеансами пользователей
     'django.contrib.messages',  # Механизмы для управления сообщениями, которые могут быть отображены пользователю
     'django.contrib.staticfiles',  # Управление статическими файлами, такими как CSS, JavaScript, изображения и другие
+    # my apps
+    'products',
+    # 'users',
 ]
 # Список промежуточных программных компонентов (middleware), которые обрабатывают запросы и ответы
 MIDDLEWARE = [
@@ -62,7 +65,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'  # Это где располагаются url адреса
-# Отвечает за работу с шаблонами
+# Отвечает за работу с шаблонами, можно использовать например Jinja2, вместо DjangoTemplates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -131,9 +134,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 # установка DEFAULT_AUTO_FIELD в 'django.db.models.BigAutoField' означает,
 # что по умолчанию Django будет использовать BigAutoField для генерации значений первичного ключа модели.
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AUTH_USER_MODEL = 'users.User'  # Настройка для определения модели пользователя
