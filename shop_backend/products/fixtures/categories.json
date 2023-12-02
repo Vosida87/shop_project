@@ -3,7 +3,7 @@
   "model": "products.productcategory",
   "pk": 1,
   "fields": {
-    "name": "Œ‰ÂÊ‰‡",
+    "name": "–û–¥–µ–∂–¥–∞",
     "description": null
   }
 },
@@ -11,7 +11,7 @@
   "model": "products.productcategory",
   "pk": 2,
   "fields": {
-    "name": "Œ·Û‚¸",
+    "name": "–û–±—É–≤—å",
     "description": null
   }
 },
@@ -19,7 +19,7 @@
   "model": "products.productcategory",
   "pk": 3,
   "fields": {
-    "name": "–˛ÍÁ‡ÍË",
+    "name": "–†—é–∫–∑–∞–∫–∏",
     "description": ""
   }
 }

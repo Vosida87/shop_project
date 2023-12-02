@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # my apps
     'products',
     # 'users',
+    'users',
 ]
 # Список промежуточных программных компонентов (middleware), которые обрабатывают запросы и ответы
 MIDDLEWARE = [
@@ -121,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 # Переменные связанные со временем и языком проекта
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -145,4 +146,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # что по умолчанию Django будет использовать BigAutoField для генерации значений первичного ключа модели.
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'users.User'  # Настройка для определения модели пользователя
+AUTH_USER_MODEL = 'users.User'  # Настройка для определения модели пользователя

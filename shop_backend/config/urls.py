@@ -22,8 +22,10 @@ from django.conf import settings  # Если подтягивать настро
 urlpatterns = [
     # функция path вызывается и в неё передаётся вьюшка, которая принимает request
     path('admin/', admin.site.urls),
-    # products
-    path('', include('products.urls', namespace='products'))
+    # products (include включает адреса из url в нужном приложении)
+    path('', include('products.urls', namespace='products')),
+    # users
+    path('users/', include('users.urls', namespace='users')),
 ]
 
 if settings.DEBUG:
