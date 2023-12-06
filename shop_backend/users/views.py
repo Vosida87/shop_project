@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponseRedirect
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.contrib import auth, messages
 from django.urls import reverse
+from products.models import Basket
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -38,6 +40,7 @@ def register(request):
     return render(request, 'users/register.html', context)
 
 
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(instance=request.user, data=request.POST, files=request.FILES)
@@ -47,7 +50,11 @@ def profile(request):
     else:
         # Здесь необходимо передать данные уже и для GET запроса, чтобы они отображались в форме
         form = UserProfileForm(instance=request.user)  # передаём "экземпляр" пользователя, отправившего запрос
-    context = {'title': 'Store - профиль', 'form': form}
+    
+    context = {'title': 'Store - профиль',
+               'form': form,
+               'baskets': Basket.objects.filter(user=request.user),
+               }
     return render(request, 'users/profile.html', context)
 
 

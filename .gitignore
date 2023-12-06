@@ -1,3 +1,8 @@
 venv
 .idea
 shop_backend/.env
+*.pyc
+__pycache__
+shop_backend/users/migrations/0001_initial.py
+shop_backend/products/migrations/0001_initial.py
+shop_backend/products/migrations/0002_basket.py
