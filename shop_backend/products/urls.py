@@ -7,6 +7,8 @@ app_name = ProductsConfig.name
 urlpatterns = [
     path('', index, name='index'),
     path('products/', products, name='list'),
+    path('products/category/<int:category_id>/', products, name='category'),
+    path('products/page/<int:page_number>/', products, name='paginator'),
     path('products/basket/add/<int:product_id>/', basket_add, name='basket_add'),
     path('products/basket/remove/<int:basket_id>/', basket_remove, name='basket_remove'),
 ]
