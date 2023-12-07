@@ -27,11 +27,11 @@ class Product(models.Model):
     name = models.CharField(max_length=256, verbose_name='Название товара')
     description = models.TextField(verbose_name='Описание товара')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
-    quantity = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='products_images')
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Количество')
+    image = models.ImageField(upload_to='products_images', verbose_name='Изображение')
     # cascade - удалим категорию - удалятся и товары, protect - пока не удалим товары не удалится и категория
     # set_default - если удалится категория, то поставится значение по умолчанию default=
-    category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE, verbose_name='Категория')
 
     class Meta:
         verbose_name = 'Товар'
@@ -54,8 +54,8 @@ class BasketQuerySet(models.QuerySet):
 
 class Basket(models.Model):
     """Модель корзины"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар(ы)')
     quantity = models.PositiveSmallIntegerField(default=0, verbose_name="Количество")
     created_timestamp = models.DateTimeField(auto_now_add=True)
     
