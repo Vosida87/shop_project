@@ -1,51 +1,41 @@
-from django.shortcuts import render, HttpResponseRedirect
+from typing import Any
+from django.db.models.query import QuerySet
+from django.shortcuts import HttpResponseRedirect
 from products.models import ProductCategory, Product, Basket
-from users.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from common.views import CommonMixin
 
 
-# def index(request):
-#     """Представление в которое передаётся запрос-request, и view отвечает response-Hello there!"""
-#     return HttpResponse('Hello there!')
+class IndexView(CommonMixin, TemplateView):
+    """Отображение главной страницы"""
+    template_name = 'products/index.html'
+    title = 'Store'
+    
 
-# def index(request):
-#     """
-#     Также для взаимодействия запроса с шаблоном используем render,
-#     можно передавать context (данные в виде словаря), и с ним работать в шаблоне (доставать оттуда нужные значения)
-#     """
-#     return render(request, 'products/test.html', {'title': 'Test'})
-
-
-def index(request):
-    context = {
-        'title': 'Store',
-    }
-    return render(request, 'products/index.html', context)
-
-
-def products(request, category_id=None, page_number=1):
-    # добавляем None к category т.к. не всегда передаётся категория
-    if category_id:
-        products = Product.objects.filter(category__id=category_id)
-    else:
-        products = Product.objects.all()
-    per_page = 3
-    paginator = Paginator(object_list=products, per_page=per_page)
-    products_paginator = paginator.page(page_number)
-    context = {'title': 'Store - каталог', 
-               'categories': ProductCategory.objects.all(),
-               'products': products_paginator,
-               }
-    return render(request, 'products/products.html', context)
+class ProductsListView(CommonMixin, ListView):
+    """Отвечает за отображение списка товаров"""
+    model = Product
+    template_name = 'products/products.html'
+    paginate_by = 3
+    title = 'Store - Каталог'
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super(ProductsListView, self).get_queryset()
+        category_id = self.kwargs.get('category_id')  # если не передан id, то вернёт None
+        return queryset.filter(category_id=category_id) if category_id else queryset
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['categories'] = ProductCategory.objects.all()
+        return context
 
 
 @login_required
 def basket_add(request, product_id):
     """Контроллер обработчик - добавить в корзину"""
-    product = Product.objects.get(id=product_id)  # Забирает id товара, который выбрал user
-    #  далее фильтрация на то, что корзина только пользователя и его товар
-    #  если товара нет, то он добавится, если есть, то увеличится
+    product = Product.objects.get(id=product_id)
     baskets = Basket.objects.filter(user=request.user, product=product)
     
     if not baskets.exists():
@@ -54,12 +44,13 @@ def basket_add(request, product_id):
         basket = baskets.first()
         basket.quantity += 1
         basket.save()
-    # возвращаем на ту же страницу, с которой поступил запрос
+        
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @login_required
 def basket_remove(request, basket_id):
+    """Контроллер обработчик - убрать из корзины"""
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
