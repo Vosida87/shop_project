@@ -17,14 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from django.conf import settings  # Если подтягивать настройки так, то они подтянутся все
+from django.conf import settings
 
 urlpatterns = [
-    # функция path вызывается и в неё передаётся вьюшка, которая принимает request
+    
     path('admin/', admin.site.urls),
-    # products (include включает адреса из url в нужном приложении)
+    # Приложения
     path('', include('products.urls', namespace='products')),
-    # users
     path('users/', include('users.urls', namespace='users')),
 ]
 

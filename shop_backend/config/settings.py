@@ -15,58 +15,50 @@ from dotenv import load_dotenv
 from os import getenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent  # содержит путь до django-проекта (shop_backend)
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR / '.env')  # Берём данные из .env
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Обеспечивает целостность передачи данных между серверами и клиентами
+
 SECRET_KEY = getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Режим отладки
+
 DEBUG = True
 
-# Доступные хосты, обычно ставят * для любого домена
 ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-# Сюда и добавляем свои приложения (проект состоит из приложений со своим функционалом)
+
 INSTALLED_APPS = [
-    'django.contrib.admin',  # Приложение для функционала администратора и административной панели
-    'django.contrib.auth',  # Приложение предоставляет систему аутентификации и авторизации пользователей
-    'django.contrib.contenttypes',  # Предоставляет универсальную систему управления типами контента (модели, объекты..)
-    'django.contrib.sessions',  # Приложение, которое предоставляет механизмы для работы с сеансами пользователей
-    'django.contrib.messages',  # Механизмы для управления сообщениями, которые могут быть отображены пользователю
-    'django.contrib.staticfiles',  # Управление статическими файлами, такими как CSS, JavaScript, изображения и другие
-    # my apps
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    
     'products',
-    # 'users',
     'users',
 ]
-# Список промежуточных программных компонентов (middleware), которые обрабатывают запросы и ответы
+
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',  # обеспечивает базовую безопасность вашего приложения
-    'django.contrib.sessions.middleware.SessionMiddleware',  # обрабатывает сеансы пользователей в вашем приложении
-    'django.middleware.common.CommonMiddleware',  # выполняет различные общие операции, такие как
-    # обработка заголовков запроса, установка кодировки символов, обработка перенаправлений и другие
-    'django.middleware.csrf.CsrfViewMiddleware',  # Обрабатывает защиту от атаки типа CSRF
-    # (меж сайтовая подделка запроса). Он генерирует и проверяет токены CSRF для каждого формуляра в вашем приложении,
-    # чтобы предотвратить возможность выполнения несанкционированных запросов.
-    'django.contrib.auth.middleware.AuthenticationMiddleware',  # проверяет, аутентифицирован ли пользователь,
-    # и предоставляет доступ к данным пользователя во время обработки запросов.
-    'django.contrib.messages.middleware.MessageMiddleware',  # обрабатывает сообщения,
-    # которые могут быть отображены пользователю.
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # обрабатывает защиту от атаки типа "кликжакинг"
-    # (нежелательное отображение вашего сайта во фрейме на другом сайте).
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'  # Это где располагаются url адреса
-# Отвечает за работу с шаблонами, можно использовать например Jinja2, вместо DjangoTemplates
+ROOT_URLCONF = 'config.urls'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -121,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
-# Переменные связанные со временем и языком проекта
+
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
@@ -137,14 +129,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-MEDIA_URL = '/media/'  # Для хранения медиафайлов
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-# установка DEFAULT_AUTO_FIELD в 'django.db.models.BigAutoField' означает,
-# что по умолчанию Django будет использовать BigAutoField для генерации значений первичного ключа модели.
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'users.User'  # Настройка для определения модели пользователя
+AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
