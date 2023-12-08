@@ -6,9 +6,9 @@ admin.site.register(ProductCategory)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    """Класс для работы с товарами в админке"""
     list_display = ('name', 'price', 'quantity', 'category')
     fields = ('image', 'name', 'description', ('price', 'quantity'), 'category')
-    # readonly_fields = ('description',)
     search_fields = ('name',)
     ordering = ('name',)
 
@@ -18,5 +18,5 @@ class BasketAdmin(admin.TabularInline):
     model = Basket
     fields = ('product', 'quantity')
     readonly_fields = ('created_timestamp',)
-    extra = 0  # убираем ненужные поля
+    extra = 0
     

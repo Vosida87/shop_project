@@ -5,5 +5,5 @@ NULLABLE = {'null': True, 'blank': True}
 
 
 class User(AbstractUser):
-    """Модель пользователя"""
+    """Расширяем модель пользователя"""
     image = models.ImageField(upload_to='users_image', **NULLABLE)
