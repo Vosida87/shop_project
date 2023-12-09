@@ -1,6 +1,8 @@
-from products.apps import ProductsConfig
 from django.urls import path
-from products.views import IndexView, ProductsListView, basket_add, basket_remove
+
+from products.apps import ProductsConfig
+from products.views import (IndexView, ProductsListView, basket_add,
+                            basket_remove)
 
 app_name = ProductsConfig.name
 

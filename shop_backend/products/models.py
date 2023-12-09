@@ -1,4 +1,5 @@
 from django.db import models
+
 from users.models import User
 
 NULLABLE = {'null': True, 'blank': True}
@@ -39,7 +40,7 @@ class BasketQuerySet(models.QuerySet):
     def total_sum(self):
         """Сумма корзины товаров"""
         return sum(basket.sum() for basket in self)
-    
+
     def total_quantity(self):
         """Количество товаров в корзине"""
         return sum(basket.quantity for basket in self)
@@ -51,13 +52,12 @@ class Basket(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар(ы)')
     quantity = models.PositiveSmallIntegerField(default=0, verbose_name="Количество")
     created_timestamp = models.DateTimeField(auto_now_add=True)
-    
+
     objects = BasketQuerySet.as_manager()
-    
+
     def __str__(self):
         return f'Корзина пользователя: {self.user.username}'
-    
+
     def sum(self):
         """Итоговая сумма за выбранное кол-во товара"""
         return self.product.price * self.quantity
-    
