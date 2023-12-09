@@ -1,12 +1,15 @@
 from typing import Any
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import HttpResponsePermanentRedirect
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from products.models import Basket
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
-from users.models import User
+from users.models import User, EmailVerification
 from common.views import CommonMixin
 
 
@@ -53,3 +56,20 @@ class UserProfileView(CommonMixin, UpdateView):
 class UserLogoutView(LogoutView):
     """Sign out пользователя"""
     next_page = reverse_lazy('products:index')
+
+
+class EmailVerificationView(CommonMixin, TemplateView):
+    """Представление для подтверждения эл. почты"""
+    title = 'Store - Подтверждение электронной почты'
+    template_name = 'users/email_verification.html'
+    
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        code = kwargs['code']
+        user = User.objects.get(email=kwargs['email'])
+        email_verifications = EmailVerification.objects.filter(user=user, code=code)
+        if email_verifications.exists() and not email_verifications.first().is_expired():
+            user.is_verified_email = True
+            user.save()
+            return super(EmailVerificationView, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponsePermanentRedirect(reverse('products:index'))

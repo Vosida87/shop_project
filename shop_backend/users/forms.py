@@ -1,12 +1,14 @@
+from typing import Any
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from users.models import User
+from users.models import User, EmailVerification
 from django import forms
+import uuid
+from datetime import timedelta
+from django.utils.timezone import now
 
 
 class UserLoginForm(AuthenticationForm):
     """Форма для авторизации"""
-    # Формы в django необходимы для того, чтобы пользователь мог отправлять свои данные веб-приложению
-    # Кастомизируем форму в шаблоне
     username = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4', 'placeholder': 'Введите имя пользователя'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={  # PassInp скрывает вводимый текст
@@ -36,6 +38,14 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
+        
+    def save(self, commit: bool = True) -> Any:
+        """Отправка эл. письма"""
+        user = super(UserRegisterForm, self).save(commit=True)
+        expiration = now() + timedelta(hours=48)
+        record = EmailVerification.objects.create(code=uuid.uuid4(), user=user, expiration=expiration)
+        record.send_verification_email()
+        return user
 
 
 class UserProfileForm(UserChangeForm):
