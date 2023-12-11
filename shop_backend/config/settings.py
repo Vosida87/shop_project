@@ -47,6 +47,11 @@ INSTALLED_APPS = [
 
     'products',
     'users',
+    
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -77,7 +83,7 @@ TEMPLATES = [
         },
     },
 ]
-# Где располагается файл wsgi
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
@@ -148,7 +154,7 @@ LOGIN_URL = '/users/login/'
 # email
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smpt.EmailBackend'
 EMAIL_HOST_USER = getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = getenv('EMAIL_HOST_PASSWORD')
 EMAIL_SERVER = EMAIL_HOST_USER
@@ -156,3 +162,19 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = [getenv('EMAIL_ADMIN')]
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# OAuth 2.0
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    ]
+
+LOGIN_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+            ],
+        }
+    }

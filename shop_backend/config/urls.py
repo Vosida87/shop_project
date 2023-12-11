@@ -25,6 +25,8 @@ urlpatterns = [
     # Приложения
     path('', include('products.urls', namespace='products')),
     path('users/', include('users.urls', namespace='users')),
+    # OAuth
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
