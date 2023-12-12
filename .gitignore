@@ -1,5 +1,6 @@
 venv
 .idea
+.vscode
 shop_backend/.env
 *.pyc
 __pycache__

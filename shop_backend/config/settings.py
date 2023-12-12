@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'allauth.socialaccount.providers.github',
+    
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'allauth.account.middleware.AccountMiddleware',
+    
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -182,3 +186,8 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     }
 }
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost'
+    ]
