@@ -1,13 +1,15 @@
 from datetime import timedelta
 from http import HTTPStatus
 
-from django.test import TestCase
+from celery.result import ResultSet
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.timezone import now
 
 from users.models import EmailVerification, User
 
 
+@override_settings(CELERY_TASK_ALWAYS_EAGER=True)  # Запускаем задачу Celery синхронно
 class UserRegisterViewTestCase(TestCase):
     """Класс для тестирования регистрации пользователя"""
     # Создайте свою fixture с социальным приложением
@@ -41,6 +43,11 @@ class UserRegisterViewTestCase(TestCase):
         # Для этого теста нужен объект социального приложения
         # self.assertRedirects(response, reverse('users:login'))
         self.assertTrue(User.objects.filter(username=username).exists())
+
+        # Ожидаем выполнения задачи Celery
+        result_set = ResultSet([])
+        for task in result_set:
+            task.get()
 
         email_verification = EmailVerification.objects.filter(user__username=username)
         self.assertTrue(email_verification.exists())
