@@ -17,7 +17,7 @@ Shop project - это онлайн магазин, разработанный с
 3. Остановка `sudo service redis-server stop`.
 ***
 ## `Запуск Celery`
-1. Откройте дополнительный терминал для Celery;
+1. Откройте дополнительный терминал для Celery c активированным venv;
 2. Команда для запуска Celery в windows `celery -A config worker -l info -P gevent`.
 ***
 ## `Установка и запуск проекта`
