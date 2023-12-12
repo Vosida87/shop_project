@@ -25,6 +25,7 @@ urlpatterns = [
     # Приложения
     path('', include('products.urls', namespace='products')),
     path('users/', include('users.urls', namespace='users')),
+    path('orders/', include('orders.urls', namespace='orders')),
     # OAuth
     path('accounts/', include('allauth.urls')),
 ]
