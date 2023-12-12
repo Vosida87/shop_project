@@ -1,6 +1,6 @@
 # `shop_project`
 Shop project - это онлайн магазин, разработанный с использованием Django framework.  
-Стек: `Python`, `Django`, `DjangoTemplates`, `PostgreSql`, `OAuth 2.0`, `Redis`, `flake8`, `isort`
+Стек: `Python`, `Django`, `DjangoTemplates`, `PostgreSql`, `OAuth 2.0`, `Redis`, `Celery`, `flake8`, `isort`
 ***
 ## `Описание`
 Проект магазина предоставляет следующие функции:
@@ -15,6 +15,10 @@ Shop project - это онлайн магазин, разработанный с
 1. Запуск `sudo service redis-server start`;
 2. Обращение к работе с базой данных `redis-cli`;
 3. Остановка `sudo service redis-server stop`.
+***
+## `Запуск Celery`
+1. Откройте дополнительный терминал для Celery;
+2. Команда для запуска Celery в windows `celery -A config worker -l info -P gevent`.
 ***
 ## `Установка и запуск проекта`
 1. Клонируйте проект на ваш локальный компьютер `git clone <URL-repo>`;
